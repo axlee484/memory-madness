@@ -22,7 +22,7 @@ public partial class FrontSprite : TextureRect
     }
     private void SetRandomTexture()
     {
-        var randomSprite = imageManager.GetRandomImage();
+        var randomSprite = imageManager.GetImage(GD.RandRange(0, imageManager.GetImageCount()-1));
         Texture = randomSprite.Image;
     }
     private void LoadAnimation()

@@ -24,7 +24,8 @@ public partial class ImageManager : Node
         );
         
     }
-    public ImageResource GetRandomImage() => imageData.Count == 0 ? null : imageData[(int)(GD.Randi()%imageData.Count)];
+    public ImageResource GetImage(int i) => imageData.Count == 0 ?null :imageData[i];
+    public int GetImageCount() => imageData.Count;
     public override void _Ready()
     {
         LoadImageData();
