@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="New Game Project"
+config/name="Memory Madness"
 run/main_scene="uid://kmtvd1c4iwjc"
 config/features=PackedStringArray("4.5", "C#", "GL Compatibility")
 config/icon="uid://yj5gf0fsv6lc"
@@ -31,6 +31,10 @@ window/stretch/mode="canvas_items"
 [dotnet]
 
 project/assembly_name="New Game Project"
+
+[global_group]
+
+memory_tile=""
 
 [rendering]
 

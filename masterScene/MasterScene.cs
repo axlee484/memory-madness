@@ -8,6 +8,7 @@ public partial class MasterScene : CanvasLayer
     private GameScene gameScene;
     private MainScene mainScene;
     private AudioStreamPlayer bgmPlayer;
+    private GameManager gameManager;
 
 
     private void ShowGameScene(bool show)
@@ -26,6 +27,7 @@ public partial class MasterScene : CanvasLayer
     private void OnExitButtonPressed()
     {
         ShowGameScene(true);
+        gameManager.ClearNodesInGroup(gameManager.GROUP_MEMORY_TILE);
         PlayBGMSound();
     }
 
@@ -37,6 +39,7 @@ public partial class MasterScene : CanvasLayer
     public override void _Ready()
     {
         signalManager = GetNode<SignalManager>("/root/SignalManager");
+        gameManager = GetNode<GameManager>("/root/GameManager");
         signalManager.ExitGame += OnExitButtonPressed;
         signalManager.StartLevel += StartLevel;
 
