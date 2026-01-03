@@ -1,0 +1,127 @@
+[gd_scene load_steps=6 format=3 uid="uid://bn4kii0eywm3m"]
+
+[ext_resource type="Script" uid="uid://boy0yx6fo8ilm" path="res://gameScene/GameScene.cs" id="1_ptkdo"]
+[ext_resource type="FontFile" uid="uid://dr86wj7upcjjv" path="res://assets/fonts/gm-white-36.tres" id="1_q0gdp"]
+[ext_resource type="Texture2D" uid="uid://cg4ke7p4vpdow" path="res://assets/ui/blue_button00.png" id="2_emx66"]
+[ext_resource type="Texture2D" uid="uid://dgtm1qqnrasal" path="res://assets/ui/yellow_button00.png" id="3_ptkdo"]
+[ext_resource type="Texture2D" uid="uid://mowag8gfqokm" path="res://assets/ui/green_button00.png" id="4_u5wcd"]
+
+[node name="GameScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ptkdo")
+
+[node name="MG" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HB" type="HBoxContainer" parent="MG"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="GC" type="GridContainer" parent="MG/HB"]
+custom_minimum_size = Vector2(800, 600)
+layout_mode = 2
+
+[node name="VB" type="VBoxContainer" parent="MG/HB"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="HBMove" type="HBoxContainer" parent="MG/HB/VB"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MG/HB/VB/HBMove"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("1_q0gdp")
+text = "Moves"
+
+[node name="Move" type="Label" parent="MG/HB/VB/HBMove"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("1_q0gdp")
+text = "000"
+
+[node name="HBPair" type="HBoxContainer" parent="MG/HB/VB"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MG/HB/VB/HBPair"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("1_q0gdp")
+text = "Pairs"
+
+[node name="Pair" type="Label" parent="MG/HB/VB/HBPair"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("1_q0gdp")
+text = "000"
+
+[node name="HBTime" type="HBoxContainer" parent="MG/HB/VB"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MG/HB/VB/HBTime"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("1_q0gdp")
+text = "Time"
+
+[node name="Time" type="Label" parent="MG/HB/VB/HBTime"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("1_q0gdp")
+text = "000"
+
+[node name="Control" type="Control" parent="MG/HB/VB"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="ExitButton" type="TextureButton" parent="MG/HB/VB"]
+layout_mode = 2
+texture_normal = ExtResource("2_emx66")
+texture_pressed = ExtResource("3_ptkdo")
+texture_hover = ExtResource("4_u5wcd")
+
+[node name="Label" type="Label" parent="MG/HB/VB/ExitButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("1_q0gdp")
+theme_override_font_sizes/font_size = 28
+text = "EXIT"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="MG/HB/VB/ExitButton" to="." method="OnExitButtonPressed"]

@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://dukl5d368p3qq"]
+
+[ext_resource type="Texture2D" uid="uid://cb7k63ft4ue1u" path="res://assets/ui/level_select_frame_128.png" id="1_h347w"]
+[ext_resource type="Texture2D" uid="uid://e4p7hykpd845" path="res://assets/ui/level_select_frame_select_128.png" id="2_64sv6"]
+[ext_resource type="Texture2D" uid="uid://dt3jd30nqimmk" path="res://assets/ui/level_select_frame_hover_128.png" id="3_l45sk"]
+[ext_resource type="Script" uid="uid://4km2neh3g43v" path="res://mainScene/LevelButton.cs" id="4_l45sk"]
+[ext_resource type="FontFile" uid="uid://dr86wj7upcjjv" path="res://assets/fonts/gm-white-36.tres" id="5_l45sk"]
+
+[node name="LevelButton" type="TextureButton"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 64.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(64, 64)
+texture_normal = ExtResource("1_h347w")
+texture_pressed = ExtResource("2_64sv6")
+texture_hover = ExtResource("3_l45sk")
+script = ExtResource("4_l45sk")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_l45sk")
+theme_override_font_sizes/font_size = 36
+text = "0x0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[connection signal="pressed" from="." to="." method="OnPressed"]
