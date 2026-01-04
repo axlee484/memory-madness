@@ -10,7 +10,7 @@ public partial class GameScene : Control
     private GridContainer gridContainer;
     private GameManager gameManager;
     private ImageManager imageManager;
-    private PackedScene memoryTile;
+    private PackedScene memoryTileScene;
 
     public override void _Ready()
     {
@@ -18,7 +18,7 @@ public partial class GameScene : Control
         gameManager = GetNode<GameManager>("/root/GameManager");
         imageManager = GetNode<ImageManager>("/root/ImageManager");
         gridContainer = GetNode<GridContainer>("MG/HB/GCContainer/GC");
-        memoryTile = GD.Load<PackedScene>("res://gameScene/memory_tile.tscn");
+        memoryTileScene = GD.Load<PackedScene>("res://gameScene/memory_tile.tscn");
         signalManager.StartLevel += SetGameLevel;
     }
 
@@ -35,27 +35,25 @@ public partial class GameScene : Control
         return list;
     }
 
-    private List<ImageResource> GetRandomSprites(int count)
+    private List<(ImageResource,ImageResource)> GetRandomImages(int count)
     {
         var imageData = imageManager.ImageData.ToList();
-        var end = imageData.Count()-1;
-        List<ImageResource> images = [];
+        List<(ImageResource,ImageResource)> spriteAndFrameList = [];
 
-        while (images.Count()<count)
+        var end = imageData.Count()-1;
+        while (spriteAndFrameList.Count()<count)
         {
-            var index = GD.RandRange(0, end);
-            images.Add(imageData[index]);
-            (imageData[end], imageData[index]) = (imageData[index], imageData[end]);
-            end --;
+            var index = GD.RandRange(0,end);
+            spriteAndFrameList.Add((imageData[index],imageManager.GetRandomFrame()));
+            (imageData[index], imageData[end]) = (imageData[end], imageData[index]);
+            end--;
         }
-        var shuffledList = images.Select(image=>new ImageResource(image.Name,image.Image)).ToList();
-        shuffledList = ShuffleList(shuffledList);
-        shuffledList.ForEach(item =>
-        {
-            images.Add(item);
-        });
-        return images;
+        var duplicateList = ShuffleList(spriteAndFrameList.ToList());
+        duplicateList.ForEach(spriteAndFrameList.Add);
+        return spriteAndFrameList;
     }
+
+    
     private void SetGameLevel(int levelNumber)
     {
         var levelConfig = gameManager.LevelConfig[levelNumber];
@@ -64,17 +62,15 @@ public partial class GameScene : Control
         gridContainer.Columns = columns;
 
         var uniqueSpriteCount = rows*columns/2;
-        var sprites = GetRandomSprites(uniqueSpriteCount);
-
-        sprites.ForEach(sprite =>
-        {
-            var tile = memoryTile.Instantiate<TextureButton>();
-            tile.GetNode<TextureRect>("ImageContainer/Image").Texture = sprite.Image;
-            tile.GetNode<TextureRect>("ImageContainer/Tile").Texture = imageManager.GetRandomFrame().Image;
-            gridContainer.AddChild(tile);
+        var spriteAndFrames = GetRandomImages(uniqueSpriteCount);
+        
+        spriteAndFrames.ForEach(item=>{
+            var memoryTile = memoryTileScene.Instantiate<MemoryTile>();
+            memoryTile.GetNode<TextureRect>("ImageContainer/Image").Texture = item.Item1.Image;
+            memoryTile.GetNode<TextureRect>("ImageContainer/Tile").Texture = item.Item2.Image;
+            gridContainer.AddChild(memoryTile);
         });
         
-
 
     }
     public void OnExitButtonPressed()
