@@ -22,57 +22,23 @@ public partial class GameScene : Control
         signalManager.StartLevel += SetGameLevel;
     }
 
-    private List<T> ShuffleList<T>(List<T> list)
+    public void SetGameLevel(int level)
     {
-        var end = list.Count()-1;
-
-        while (end > 0)
+        gameLevel = level;
+        var spritesAndFrames = gameManager.SetGameLevel(gameLevel);
+        for (var i = 0; i < spritesAndFrames.Count; i++)
         {
-            var randomIndex = GD.RandRange(0, end);
-            (list[end], list[randomIndex]) = (list[randomIndex],list[end]);
-            end --;
-        }
-        return list;
-    }
-
-    private List<(ImageResource,ImageResource)> GetRandomImages(int count)
-    {
-        var imageData = imageManager.ImageData.ToList();
-        List<(ImageResource,ImageResource)> spriteAndFrameList = [];
-
-        var end = imageData.Count()-1;
-        while (spriteAndFrameList.Count()<count)
-        {
-            var index = GD.RandRange(0,end);
-            spriteAndFrameList.Add((imageData[index],imageManager.GetRandomFrame()));
-            (imageData[index], imageData[end]) = (imageData[end], imageData[index]);
-            end--;
-        }
-        var duplicateList = ShuffleList(spriteAndFrameList.ToList());
-        duplicateList.ForEach(spriteAndFrameList.Add);
-        return spriteAndFrameList;
-    }
-
-    
-    private void SetGameLevel(int levelNumber)
-    {
-        var levelConfig = gameManager.LevelConfig[levelNumber];
-        var rows = levelConfig.Row;
-        var columns = levelConfig.Column;
-        gridContainer.Columns = columns;
-
-        var uniqueSpriteCount = rows*columns/2;
-        var spriteAndFrames = GetRandomImages(uniqueSpriteCount);
-        
-        spriteAndFrames.ForEach(item=>{
             var memoryTile = memoryTileScene.Instantiate<MemoryTile>();
-            memoryTile.GetNode<TextureRect>("ImageContainer/Image").Texture = item.Item1.Image;
-            memoryTile.GetNode<TextureRect>("ImageContainer/Tile").Texture = item.Item2.Image;
+            memoryTile.GetNode<TextureRect>("ImageContainer/Image").Texture = spritesAndFrames[i].Item1.Image;
+            memoryTile.GetNode<TextureRect>("ImageContainer/Tile").Texture = spritesAndFrames[i].Item2.Image;
+            memoryTile.TileName = spritesAndFrames[i].Item1.Name;
+            gridContainer.Columns = gameManager.LevelConfig[gameLevel].Column;
             gridContainer.AddChild(memoryTile);
-        });
-        
 
+        }
     }
+
+
     public void OnExitButtonPressed()
     {
         signalManager.EmitSignal(SignalManager.SignalName.ExitGame);
