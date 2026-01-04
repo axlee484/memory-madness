@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://bn4kii0eywm3m"]
+[gd_scene load_steps=7 format=3 uid="uid://bn4kii0eywm3m"]
 
 [ext_resource type="Script" uid="uid://boy0yx6fo8ilm" path="res://gameScene/GameScene.cs" id="1_ptkdo"]
 [ext_resource type="FontFile" uid="uid://dr86wj7upcjjv" path="res://assets/fonts/gm-white-36.tres" id="1_q0gdp"]
 [ext_resource type="Texture2D" uid="uid://cg4ke7p4vpdow" path="res://assets/ui/blue_button00.png" id="2_emx66"]
+[ext_resource type="Script" uid="uid://c7fv3hy3y5sau" path="res://gameScene/Score.cs" id="2_u5wcd"]
 [ext_resource type="Texture2D" uid="uid://dgtm1qqnrasal" path="res://assets/ui/yellow_button00.png" id="3_ptkdo"]
 [ext_resource type="Texture2D" uid="uid://mowag8gfqokm" path="res://assets/ui/green_button00.png" id="4_u5wcd"]
 
@@ -59,6 +60,7 @@ columns = 3
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
+script = ExtResource("2_u5wcd")
 
 [node name="HBMove" type="HBoxContainer" parent="MG/HB/VB"]
 layout_mode = 2
@@ -144,4 +146,7 @@ text = "EXIT"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Timer" type="Timer" parent="."]
+
 [connection signal="pressed" from="MG/HB/VB/ExitButton" to="." method="OnExitButtonPressed"]
+[connection signal="timeout" from="Timer" to="." method="OnTimerTimeout"]

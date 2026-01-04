@@ -11,6 +11,9 @@ public partial class GameScene : Control
     private GameManager gameManager;
     private ImageManager imageManager;
     private PackedScene memoryTileScene;
+    private Timer timer;
+    private Score scoreNode;
+    private int time = 0;
 
     public override void _Ready()
     {
@@ -18,6 +21,8 @@ public partial class GameScene : Control
         gameManager = GetNode<GameManager>("/root/GameManager");
         imageManager = GetNode<ImageManager>("/root/ImageManager");
         gridContainer = GetNode<GridContainer>("MG/HB/GCContainer/GC");
+        scoreNode = GetNode<Score>("MG/HB/VB");
+        timer = GetNode<Timer>("Timer");
         memoryTileScene = GD.Load<PackedScene>("res://gameScene/memory_tile.tscn");
         signalManager.StartLevel += SetGameLevel;
     }
@@ -36,11 +41,19 @@ public partial class GameScene : Control
             gridContainer.AddChild(memoryTile);
 
         }
+        scoreNode.UpdateTime(0);
+        timer.Start();
+    }
+
+    public void OnTimerTimeout()
+    {
+        scoreNode.UpdateTime(time++);
     }
 
 
     public void OnExitButtonPressed()
     {
+        time = 0;  
         signalManager.EmitSignal(SignalManager.SignalName.ExitGame);
     }
 }

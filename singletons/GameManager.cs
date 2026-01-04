@@ -14,9 +14,9 @@ public partial class GameManager : Node
     private ImageManager imageManager;
 
     public int RevealedTilesCount {get; set;} = 0;
-    private int gameLevel = 0;
+    private int targetPairs = 0;
     private int moves = 0;
-    private int score = 0;
+    private int pairsRevealed = 0;
     private List<MemoryTile> revealedTiles = [];
     private void SetLevelConfig()
     {
@@ -31,11 +31,12 @@ public partial class GameManager : Node
     private void AddMove()
     {
         moves++;
+        signalManager.EmitSignal(SignalManager.SignalName.UpdateScore, moves, pairsRevealed);
         revealedTiles[0].Reveal(false);
         revealedTiles[1].Reveal(false);
         RevealedTilesCount = 0;
         revealedTiles = [];
-        GD.Print(moves);
+        // GD.Print(moves);
     }
 
     private void CheckPair()
@@ -43,10 +44,10 @@ public partial class GameManager : Node
         (string name1, string name2) = (revealedTiles[0].TileName, revealedTiles[1].TileName);
         if(name1 == name2)
         {
-            score ++;
+            pairsRevealed ++;
             revealedTiles[0].SetSolved();
             revealedTiles[1].SetSolved();
-            GD.Print("score",score);
+            // GD.Print("score",pairsRevealed);
         }
     }
 
@@ -102,16 +103,17 @@ public partial class GameManager : Node
     public List<(ImageResource,ImageResource)> SetGameLevel(int levelNumber)
     {
         var levelConfig = LevelConfig[levelNumber];
-        gameLevel = levelNumber;
         revealedTiles = [];
         RevealedTilesCount = 0;
         moves = 0;
-        score = 0;
+        pairsRevealed = 0;
         var rows = levelConfig.Row;
         var columns = levelConfig.Column;
 
         var uniqueSpriteCount = rows*columns/2;
+        targetPairs = uniqueSpriteCount;
         var spriteAndFrames = GetRandomImages(uniqueSpriteCount);
+        signalManager.EmitSignal(SignalManager.SignalName.UpdateScore, moves, pairsRevealed);
         return spriteAndFrames;
     }
 
